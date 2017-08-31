@@ -10,16 +10,26 @@ VERSION = '0.1'
 
 class DLANBandwidth:
     """
-    Reat bandwidth between two dlan stations
+    Read bandwidth between two dlan stations
     """
     def __init__(self, host, remote_mac, username, password):
+        """
+        Create new bandwidth measure object
+        :param host: Hostname/IP of station
+        :param remote_mac: MAC address of remote station
+        :param username: Username
+        :param password: Password
+        """
         self._host = host
         self._remote_mac = remote_mac
         self._username = username
         self._password = password
 
     def get_bandwidth(self):
-
+        """
+        Query used bandwidth between stations
+        :return: Tuple: (STATUS, tx, rx)
+        """
         passmgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
         passmgr.add_password(None, 'http://{0}/'.format(self._host), self._username, self._password)
         opener = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(passmgr))
@@ -33,7 +43,7 @@ class DLANBandwidth:
             data = json.loads(buf)
 
             for entry in data:
-                if entry.get('loc', None) == u'remote' and entry.get(u'mac', None) ==  self._remote_mac:
+                if entry.get('loc', None) == u'remote' and entry.get(u'mac', None) == self._remote_mac:
                     ret = ('OK', float(entry['tx']), float(entry['rx']))
                     return ret
         except urllib2.HTTPError, e:
@@ -52,6 +62,10 @@ class DLANBandwidth:
 
 
 def main():
+    """
+    The all mighty main function
+    :return:
+    """
     argp = argparse.ArgumentParser(
         description=u'Check devolo DLAN bandwidth v {0} (c) by Christian Höntsch-Rode'.format(VERSION)
     )
