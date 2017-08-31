@@ -1,6 +1,11 @@
+#!/usr/bin/python
+# coding=utf-8
 import urllib2
 import json
 import argparse
+
+
+VERSION = '0.1'
 
 
 class DLANBandwidth:
@@ -47,7 +52,9 @@ class DLANBandwidth:
 
 
 def main():
-    argp = argparse.ArgumentParser()
+    argp = argparse.ArgumentParser(
+        description=u'Check devolo DLAN bandwidth v {0} (c) by Christian Höntsch-Rode'.format(VERSION)
+    )
     argp.add_argument('-H', '--host', required=True,
                       help="Hostname")
     argp.add_argument('-r', '--remote-mac', required=True,
