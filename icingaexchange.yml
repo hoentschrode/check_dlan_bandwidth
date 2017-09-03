@@ -1,0 +1,18 @@
+name: check_dlan_bandwidth
+description: "file:///README.md"
+url: "https://github.com/hoentschrode/check_dlan_bandwidth"
+tags: Bandwidth
+vendor: Devolo
+target: Network, Hardware
+type: Plugin
+license: gplv3
+releases:
+  -
+    name: 0.1
+    description: "Version 0.1"
+    files:
+      -
+        name: check_dlan_bandwidth.py
+        url: "file:///check_dlan_bandwidth.py"
+        description: "Initial release"
+        checksum: 78f5fe55c7f00b77432cb5692370c48f
