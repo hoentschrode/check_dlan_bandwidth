@@ -3,6 +3,7 @@
 import urllib2
 import json
 import argparse
+import nagiosplugin
 
 
 VERSION = '0.1'
@@ -69,11 +70,26 @@ class DLANBandwidth:
         return 'UNKNOWN', None, None
 
 
-def main():
-    """
-    The all mighty main function
-    :return:
-    """
+class BandwidthChecker(nagiosplugin.Resource):
+    def __init__(self, host, remote_mac, username, password):
+        self._host = host
+        self._remote_mac = remote_mac
+        self._username = username
+        self._password = password
+
+    def bandwidth(self):
+        bw = DLANBandwidth(self._host, self._remote_mac, self._username, self._password)
+        return bw.get_bandwidth()
+
+    def probe(self):
+        bandwidth = self.bandwidth()
+        return[
+            nagiosplugin.Metric('tx', bandwidth[1], min=0, context='bandwidth'),
+            nagiosplugin.Metric('rx', bandwidth[2], min=0, context='bandwidth')
+        ]
+
+
+def create_parser():
     argp = argparse.ArgumentParser(
         description=u'Check devolo DLAN bandwidth v {0} (c) by Christian Höntsch-Rode'.format(VERSION)
     )
@@ -85,10 +101,32 @@ def main():
                       help='Username (same as used for web interface)')
     argp.add_argument('-p', '--password', required=True,
                       help='Password (same as used for web interface)')
+    argp.add_argument('-w', '--warning', default=400,
+                      help='Warning level')
+    argp.add_argument('-c', '--critical', default=450,
+                      help="Critical level")
+    return argp
+
+
+@nagiosplugin.guarded()
+def main():
+    """
+    The all mighty main function
+    :return:
+    """
+    argp = create_parser()
 
     args = argp.parse_args()
-    bw = DLANBandwidth(args.host, args.remote_mac, args.user, args.password)
-    print bw.get_bandwidth()
+
+    check = nagiosplugin.Check(
+        BandwidthChecker(args.host, args.remote_mac, args.user, args.password),
+        nagiosplugin.ScalarContext('bandwidth', args.warning, args.critical, fmt_metric='{value} MBit/s')
+    )
+    check.main()
+
+    #bw = DLANBandwidth(args.host, args.remote_mac, args.user, args.password)
+    #print bw.get_bandwidth()
+
 
 if __name__ == '__main__':
     main()
