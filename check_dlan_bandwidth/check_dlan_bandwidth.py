@@ -33,19 +33,27 @@ class DLANBandwidth:
         passmgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
         passmgr.add_password(None, 'http://{0}/'.format(self._host), self._username, self._password)
         opener = urllib2.build_opener(urllib2.HTTPBasicAuthHandler(passmgr))
+        urllib2.install_opener(opener)
 
         url = 'http://{0}/cgi-bin/htmlmgr?_file=getjson&service=hpdevices'.format(self._host)
         try:
             req = urllib2.Request(url)
-            res = opener.open(req, timeout=4)
-            buf = res.read()
+            res = urllib2.urlopen(req, timeout=4)
 
+            # Check content type
+            content_type = res.info().getheader('Content-Type')
+            if content_type is None or not content_type.lower().startswith('application/json'):
+                ret = ('HTTP error: Expected json response, got {0}'.format(content_type), None, None)
+                return ret
+
+            buf = res.read()
             data = json.loads(buf)
 
             for entry in data:
-                if entry.get('loc', None) == u'remote' and entry.get(u'mac', None) == self._remote_mac:
-                    ret = ('OK', float(entry['tx']), float(entry['rx']))
-                    return ret
+                if isinstance(entry, dict):
+                    if entry.get('loc', None) == u'remote' and entry.get(u'mac', None) == self._remote_mac:
+                        ret = ('OK', float(entry['tx']), float(entry['rx']))
+                        return ret
         except urllib2.HTTPError, e:
             ret = ('HTTP error {0}'.format(e.code), None, None)
             return ret
