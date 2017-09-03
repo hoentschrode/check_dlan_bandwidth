@@ -1,1 +1,1 @@
-from check_dlan_bandwidth import DLANBandwidth
+from .check_dlan_bandwidth import VERSION, DLANBandwidth
