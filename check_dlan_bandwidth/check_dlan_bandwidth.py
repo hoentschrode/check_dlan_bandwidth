@@ -101,9 +101,9 @@ def create_parser():
                       help='Username (same as used for web interface)')
     argp.add_argument('-p', '--password', required=True,
                       help='Password (same as used for web interface)')
-    argp.add_argument('-w', '--warning', default=400,
+    argp.add_argument('-w', '--warning', default=None,
                       help='Warning level')
-    argp.add_argument('-c', '--critical', default=450,
+    argp.add_argument('-c', '--critical', default=None,
                       help="Critical level")
     return argp
 
