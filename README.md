@@ -16,6 +16,8 @@ pip install check_dlan_bandwidth
 ```
 
 ## Usage
+On my raspberry py the script is installed under ``/usr/local/lib/python2.7/dist-packages/check_dlan_bandwidth/check_dlan_bandwidth.py``
+
 ```
 check_dlan_bandwidth.py [-h] -H HOST -r REMOTE_MAC -u USER -p PASSWORD
 ```
@@ -32,11 +34,34 @@ Command line arguments
 ```
 
 ## Configuration
-To use this check script you should create a custom command in icinga's commands.conf:
+To use this check script you should create a custom command in icinga's ``commands.conf``:
 ```
 object CheckCommand "check_dlan_bandwidth" {
-    command = ['/usr/local/bin/check_dlan_bandwidth.py']
+  command = ["/usr/local/lib/python2.7/dist-packages/check_dlan_bandwidth/check_dlan_bandwidth.py"]
+  arguments = {
+    "-H" = "$address$"
+    "-r" = "11:22:33:44:55:66"
+    "-u" = "admin"
+    "-p" = "my_secret_password"
+  }
+}
+
+```
+
+.. them make a custom service in ``services.conf`` wich automatically applies to all dlan devices:
+```
+apply Service "DlanBandwidth" {
+  import "generic-service"
+  check_command = "check_dlan_bandwidth"
+  assign where "DLAN-devices" in host.groups
 }
 ```
 
+Note: I've created the hostgroup "DLAN-devices" wich constains all my dlan adapters in ``grouops.conf``:
+```
+object HostGroup "DLAN-devices" {
+  display_name = "DLAN devices"
+  assign where "Devolo DLAN500 Wifi" in host.templates
+}
+```
 

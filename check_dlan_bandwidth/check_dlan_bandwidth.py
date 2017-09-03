@@ -124,9 +124,6 @@ def main():
     )
     check.main()
 
-    #bw = DLANBandwidth(args.host, args.remote_mac, args.user, args.password)
-    #print bw.get_bandwidth()
-
 
 if __name__ == '__main__':
     main()
