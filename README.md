@@ -9,11 +9,13 @@ Therefore it's necessary to provide a host ip and a remote mac.
 
 I have 5 devices (dlan 500 Wifi) in my house. All of them are connected through a central "dlan 500 duo+" to my router. The latter doesn't have a web interface, but a mac address, wich can be queried as remote station.  
 
-## Installing
+## Installation
 Since this script is written in Python (currently only compatible to 2.7!), it can easily be installed using pip:
 ```bash
 pip install check_dlan_bandwidth
 ```
+
+This installs the check script, all dependent libs and creates an executable, usually under ``/usr/local/bin``. 
 
 ## Usage
 On my raspberry py the script is installed under ``/usr/local/lib/python2.7/dist-packages/check_dlan_bandwidth/check_dlan_bandwidth.py``
@@ -37,7 +39,7 @@ Command line arguments
 To use this check script you should create a custom command in icinga's ``commands.conf``:
 ```
 object CheckCommand "check_dlan_bandwidth" {
-  command = ["/usr/local/lib/python2.7/dist-packages/check_dlan_bandwidth/check_dlan_bandwidth.py"]
+  command = ["/usr/local/bin/check_dlan_bandwidth"]
   arguments = {
     "-H" = "$address$"
     "-r" = "11:22:33:44:55:66"

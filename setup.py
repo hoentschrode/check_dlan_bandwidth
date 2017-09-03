@@ -2,6 +2,7 @@
 from setuptools import setup, find_packages
 from check_dlan_bandwidth import VERSION
 
+
 setup(
     name='check_dlan_bandwidth',
     url='https://github.com/hoentschrode/check_dlan_bandwidth',
@@ -15,5 +16,10 @@ setup(
     python_requires='>= 2.5, <3.0',
     install_requires=[
         'nagiosplugin >= 1.2.4'
-    ]
+    ],
+    entry_points={
+        'console_scripts': [
+            'check_dlan_bandwidth = check_dlan_bandwidth.check_dlan_bandwidth:main'
+        ]
+    }
 )
