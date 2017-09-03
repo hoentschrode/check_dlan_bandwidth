@@ -13,6 +13,6 @@ releases:
     files:
       -
         name: check_dlan_bandwidth.py
-        url: "file:///check_dlan_bandwidth.py"
+        url: "file:///check_dlan_bandwidth/check_dlan_bandwidth.py"
         description: "Initial release"
         checksum: 78f5fe55c7f00b77432cb5692370c48f
