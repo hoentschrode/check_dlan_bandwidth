@@ -18,7 +18,7 @@ pip install check_dlan_bandwidth
 This installs the check script, all dependent libs and creates an executable, usually under ``/usr/local/bin``. 
 
 ## Usage
-On my raspberry py the script is installed under ``/usr/local/lib/python2.7/dist-packages/check_dlan_bandwidth/check_dlan_bandwidth.py`` and a command line version is created in ``/usr/local/bin/check_dlan_bandwidth``. 
+On my raspberry pi the script is installed under ``/usr/local/lib/python2.7/dist-packages/check_dlan_bandwidth/check_dlan_bandwidth.py`` and a command line version is created in ``/usr/local/bin/check_dlan_bandwidth``. 
 
 ```
 check_dlan_bandwidth.py [-h] -H HOST -r REMOTE_MAC -u USER -p PASSWORD
