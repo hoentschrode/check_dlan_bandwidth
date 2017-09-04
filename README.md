@@ -1,5 +1,10 @@
 # Nagios/Icinga plugin to check bandwidth on devolo's DLAN powerlan adapters
-[![Build Status](https://travis-ci.org/hoentschrode/check_dlan_bandwidth.svg?branch=dev)](https://travis-ci.org/hoentschrode/check_dlan_bandwidth)
+
+## Status
+MASTER: [![Build Status](https://travis-ci.org/hoentschrode/check_dlan_bandwidth.svg?branch=master)](https://travis-ci.org/hoentschrode/check_dlan_bandwidth)
+
+DEV: [![Build Status](https://travis-ci.org/hoentschrode/check_dlan_bandwidth.svg?branch=dev)](https://travis-ci.org/hoentschrode/check_dlan_bandwidth)
+
 This plugin checks the bandwidth on Devolo(tm) dlan powerlan adapters. 
 
 It's my first Nagios/Icinga plugin :)
